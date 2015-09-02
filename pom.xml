@@ -80,6 +80,16 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate</artifactId>
 			<version>3.2.3.ga</version>
+			<exclusions>
+			<exclusion>
+			<groupId>asm</groupId>
+			<artifactId>asm</artifactId>
+			</exclusion>
+			<exclusion>
+			<groupId>asm</groupId>
+			<artifactId>asm-attrs</artifactId>
+			</exclusion> 
+			</exclusions> 
 		</dependency>
 
 		<!-- Hibernate annotation -->
