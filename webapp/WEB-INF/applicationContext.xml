@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Application context definition for PetClinic on Hibernate. -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+	<!-- ========================= RESOURCE DEFINITIONS ========================= -->
+
+<!-- 	<context:property-placeholder location="classpath:jdbc.properties" /> -->
+
+
+	<!-- JNDI DataSource for JEE environments -->
+	<!-- <jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/petclinic"/> -->
+
+
+	<!-- DataSource -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/jacdb" />
+		<property name="username" value="root" />
+		<property name="password" value="admin" />
+	</bean>
+
+	<!-- Hibernate SessionFactory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.current_session_context_class">thread</prop>
+				<prop key="hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory
+				</prop>
+				<!-- <prop key="hibernate.generate_statistics">true</prop> -->
+				<prop key="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</prop>
+<!-- 				<prop key="hibernate.hbm2ddl.auto">create-drop</prop> -->
+			</props>
+		</property>
+		<property name="annotatedClasses">
+			<list>
+				<value>jac.login.Login</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- Transaction manager for a single Hibernate SessionFactory (alternative 
+		to JTA) -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager"
+		p:sessionFactory-ref="sessionFactory" />
+
+
+
+	<!-- ========================= BUSINESS OBJECT DEFINITIONS ========================= -->
+
+	<!-- Activates various annotations to be detected in bean classes: Spring's 
+		@Required and @Autowired, as well as JSR 250's @Resource. -->
+	<context:annotation-config />
+
+	<!-- Instruct Spring to perform declarative transaction management automatically 
+		on annotated classes. -->
+	<tx:annotation-driven />
+	
+	<!-- 	DAOs -->
+	<context:component-scan base-package="jac.dao"></context:component-scan>
+
+
+	<!-- 	Services -->
+	<context:component-scan base-package="jac.service"></context:component-scan>
+	
+	<!-- 	Controller -->
+	<context:component-scan base-package="jac.view"></context:component-scan>
+	
+
+
+</beans>
