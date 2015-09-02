@@ -12,6 +12,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.log4j.Logger;
 import org.apache.myfaces.custom.fileupload.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,11 +30,15 @@ public class LoginController {
 	private Login user;
 	private UploadedFile uploadedFile;
 
+	@Autowired
+	Logger logger;
+
 	private Login fetchLoginByUsername() {
 		if (username != null) {
 			return loginService.getLoginByUsername(this.username);
 		} 
 		// TODO: improve this action
+		logger.warn("There is no username entered");
 		return null;
 	
 	}
@@ -43,31 +48,34 @@ public class LoginController {
 		if (login != null && username.equals(login.getUsername())
 				&& password.equals(login.getPassword())) {
 			user = login;
-
+			logger.info("User logged in successfully");
 			return "main";
-		} else
+		} else{
+			logger.error("Error at login, invalid credentials");	
 			return "failure";
+		}
 	}
 
-	public boolean upload() throws IOException {
-		// try {
-		// // fileContent = new
-		// Scanner(file.getInputStream()).useDelimiter("\\A").next();
-		// return true;
-		// } catch (IOException e) {
-		// // Error handling
-		// return false;
-		// }
-		String fileName = FilenameUtils.getName(uploadedFile.getName());
-		String contentType = uploadedFile.getContentType();
-		byte[] bytes = uploadedFile.getBytes();
-
-		System.out.println("este es el archivo" + bytes);
-		// Now you can save bytes in DB (and also content type?)
-		saveCopyFromFile(bytes, "/Volumes/mac/Users/alejohuertas/Desktop/", "pepe");
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage(String.format("File '%s' of type '%s' successfully uploaded!",	fileName, contentType)));
-		return false;
+	public boolean upload() {
+		
+		try {
+			String fileName = FilenameUtils.getName(uploadedFile.getName());
+			String contentType = uploadedFile.getContentType();
+			byte[] bytes = uploadedFile.getBytes();
+	
+			System.out.println("este es el archivo" + bytes);
+			//TODO: Now you can save bytes in DB (and also content type?)
+	//		saveCopyFromFile(bytes, "/Volumes/mac/Users/alejohuertas/Desktop/", "pepe");
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(String.format("File '%s' of type '%s' successfully uploaded!",	
+							fileName, contentType)));
+			logger.info("User zip file successfully uploaded");
+		}
+		catch(IOException e){
+			logger.error("File was not uploaded due error", e);
+			return false;
+		}
+		return true;
 	}
 
 	private void saveCopyFromFile (byte[] fileBytes, String path, String filename ){
@@ -123,13 +131,4 @@ public class LoginController {
 	public void setUploadedFile(UploadedFile uploadedFile) {
 		this.uploadedFile = uploadedFile;
 	}
-
-	// public ApplicationFile getFile() {
-	// return file;
-	// }
-	//
-	// public void setFile(ApplicationFile file) {
-	// this.file = file;
-	// }
-
 }
