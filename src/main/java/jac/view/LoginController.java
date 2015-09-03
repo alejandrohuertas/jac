@@ -76,6 +76,7 @@ public class LoginController {
 			logger.info("User zip file successfully uploaded");
 		}
 		catch(IOException e){
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("File 'NOT  uploaded!"));
 			logger.error("File was not uploaded due error", e);
 			return false;
 		}
