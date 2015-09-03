@@ -19,7 +19,8 @@
  	<h:form id="form" enctype="multipart/form-data">
 		<t:inputFileUpload value="#{loginController.uploadedFile}" accept=".zip" />
 		<h:commandButton value="Upload" action="#{loginController.upload}" />
-		 <h:messages />
+		<h:messages />
+		<h:commandLink action="#{loginController.logout}" value="logout" />
 	</h:form>
 </h:body>
 </html>

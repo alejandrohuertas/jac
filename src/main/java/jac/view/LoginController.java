@@ -95,6 +95,10 @@ public class LoginController {
 	       
 	}
 	
+	public String logout() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "/login.xhtml?faces-redirect=true";
+    }
 	
 	public LoginService getLoginService() {
 		return loginService;
