@@ -27,6 +27,7 @@ public class ObjectFactory {
     private final static QName _UploadResponse_QNAME = new QName("http://server.mtom.ws.jac/", "uploadResponse");
     private final static QName _Upload_QNAME = new QName("http://server.mtom.ws.jac/", "upload");
     private final static QName _UploadArg1_QNAME = new QName("", "arg1");
+	private static final QName _UploadResponseReturn_QNAME = new QName("", "return");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: jac.ws.mtom.client
@@ -76,6 +77,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "", name = "arg1", scope = Upload.class)
     public JAXBElement<byte[]> createUploadArg1(byte[] value) {
         return new JAXBElement<byte[]>(_UploadArg1_QNAME, byte[].class, Upload.class, ((byte[]) value));
+    }
+    
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link byte[]}{@code >}}
+     *
+     */
+    @XmlElementDecl(namespace = "", name = "return", scope = UploadResponse.class)
+    public JAXBElement<Boolean> createDownloadResponseReturn(Boolean value) {
+        return new JAXBElement<Boolean>(_UploadResponseReturn_QNAME, Boolean.class, UploadResponse.class, ((Boolean) value));
     }
 
 }

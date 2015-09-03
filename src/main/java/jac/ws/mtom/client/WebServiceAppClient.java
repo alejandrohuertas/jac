@@ -23,11 +23,12 @@ public class WebServiceAppClient {
 		service= new FileTransfererService();
 		port= service.getFileTransfererPort(new MTOMFeature(10240));
 	}
-	public void sendFile(String fileName, byte[] fileBytes){
+	public boolean sendFile(String fileName, byte[] fileBytes){
 
 		// uploads a file
 
-		port.upload(fileName, fileBytes);
-		logger.info("File succesfully transmited: " + fileName);
+		return  port.upload(fileName, fileBytes);
+		
+		
 	}
 }
