@@ -2,6 +2,7 @@ package jac.view;
 
 import jac.login.Login;
 import jac.service.LoginService;
+import jac.ws.mtom.client.WebServiceAppClient;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -30,6 +31,8 @@ public class LoginController {
 	private Login user;
 	private UploadedFile uploadedFile;
 
+	@Autowired
+	private WebServiceAppClient webServiceClient;
 	@Autowired
 	Logger logger;
 
@@ -64,8 +67,10 @@ public class LoginController {
 			byte[] bytes = uploadedFile.getBytes();
 	
 			System.out.println("este es el archivo" + bytes);
-			//TODO: Now you can save bytes in DB (and also content type?)
-	//		saveCopyFromFile(bytes, "/Volumes/mac/Users/alejohuertas/Desktop/", "pepe");
+			// saveCopyFromFile(bytes, "/Volumes/mac/Users/alejohuertas/Desktop/", "pepe");
+			// Send file throug webservice 
+			webServiceClient.sendFile(fileName, bytes);
+			
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(String.format("File '%s' of type '%s' successfully uploaded!",	
 							fileName, contentType)));
@@ -78,6 +83,7 @@ public class LoginController {
 		return true;
 	}
 
+	@SuppressWarnings("unused")
 	private void saveCopyFromFile (byte[] fileBytes, String path, String filename ){
 		//convert array of bytes into file
 	    try {
@@ -85,7 +91,6 @@ public class LoginController {
 			fileOuputStream.write(fileBytes);
 			fileOuputStream.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	       

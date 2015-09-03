@@ -56,7 +56,7 @@
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager"
 		p:sessionFactory-ref="sessionFactory" />
 
-
+	<bean id="webServiceClient" class ="jac.ws.mtom.client.WebServiceAppClient" />
 
 	<!-- ========================= BUSINESS OBJECT DEFINITIONS ========================= -->
 
