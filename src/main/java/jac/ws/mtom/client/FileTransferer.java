@@ -3,6 +3,7 @@ package jac.ws.mtom.client;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
+import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.ws.Action;
@@ -27,12 +28,14 @@ public interface FileTransferer {
      * 
      * @param arg1
      * @param arg0
+     * @return boolean
      */
     @WebMethod
+    @WebResult(targetNamespace="")
     @RequestWrapper(localName = "upload", targetNamespace = "http://server.mtom.ws.jac/", className = "jac.ws.mtom.client.Upload")
     @ResponseWrapper(localName = "uploadResponse", targetNamespace = "http://server.mtom.ws.jac/", className = "jac.ws.mtom.client.UploadResponse")
     @Action(input = "http://server.mtom.ws.jac/FileTransferer/uploadRequest", output = "http://server.mtom.ws.jac/FileTransferer/uploadResponse")
-    public void upload(
+    public Boolean upload(
         @WebParam(name = "arg0", targetNamespace = "")
         String arg0,
         @WebParam(name = "arg1", targetNamespace = "")

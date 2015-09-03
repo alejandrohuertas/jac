@@ -40,7 +40,6 @@ public class LoginController {
 		if (username != null) {
 			return loginService.getLoginByUsername(this.username);
 		} 
-		// TODO: improve this action
 		logger.warn("There is no username entered");
 		return null;
 	
@@ -68,12 +67,18 @@ public class LoginController {
 	
 			// saveCopyFromFile(bytes, "/Volumes/mac/Users/alejohuertas/Desktop/", "pepe");
 			// Send file throug webservice 
-			webServiceClient.sendFile(fileName, bytes);
+			if (webServiceClient.sendFile(fileName, bytes)){
 			
-			FacesContext.getCurrentInstance().addMessage(null,
-					new FacesMessage(String.format("File '%s' of type '%s' successfully uploaded!",	
-							fileName, contentType)));
-			logger.info("User zip file successfully uploaded");
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(String.format("File '%s' of type '%s' successfully uploaded!",	
+								fileName, contentType)));
+				logger.info("User zip file successfully uploaded");
+			}else {
+				FacesContext.getCurrentInstance().addMessage(null,
+						new FacesMessage(String.format("File '%s' of type '%s' was Not Proccesed!",	
+								fileName, contentType)));
+				logger.error("User zip file NOT processed");
+			}
 		}
 		catch(IOException e){
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("File 'NOT  uploaded!"));
@@ -98,6 +103,7 @@ public class LoginController {
 	
 	public String logout() {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        logger.info("User has logged out");
         return "/login.xhtml?faces-redirect=true";
     }
 	
