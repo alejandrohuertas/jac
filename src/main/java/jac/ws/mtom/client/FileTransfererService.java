@@ -18,9 +18,7 @@ import javax.xml.ws.WebServiceFeature;
  * 
  */
 @WebServiceClient(name = "FileTransfererService", targetNamespace = "http://server.mtom.ws.jac/", wsdlLocation = "http://localhost:9898/jac.app/fileService?wsdl")
-public class FileTransfererService
-    extends Service
-{
+public class FileTransfererService extends Service{
 
     private final static URL FILETRANSFERERSERVICE_WSDL_LOCATION;
     private final static WebServiceException FILETRANSFERERSERVICE_EXCEPTION;

@@ -66,7 +66,6 @@ public class LoginController {
 			String contentType = uploadedFile.getContentType();
 			byte[] bytes = uploadedFile.getBytes();
 	
-			System.out.println("este es el archivo" + bytes);
 			// saveCopyFromFile(bytes, "/Volumes/mac/Users/alejohuertas/Desktop/", "pepe");
 			// Send file throug webservice 
 			webServiceClient.sendFile(fileName, bytes);

@@ -17,7 +17,7 @@
  	Please upload your code in a zip file!
  	
  	<h:form id="form" enctype="multipart/form-data">
-		<t:inputFileUpload value="#{loginController.uploadedFile}" />
+		<t:inputFileUpload value="#{loginController.uploadedFile}" accept=".zip" />
 		<h:commandButton value="Upload" action="#{loginController.upload}" />
 		 <h:messages />
 	</h:form>
